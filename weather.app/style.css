@@ -1,0 +1,29 @@
+
+#weather-container {
+   text-align: center;
+ }
+ 
+ #location-container {
+   margin-top: 20px;
+ }
+ 
+ #location-input {
+   padding: 5px;
+ }
+ 
+ #submit-btn {
+   padding: 5px 10px;
+   margin-left: 10px;
+ }
+ 
+ #weather-info {
+   margin-top: 20px;
+ }
+ 
+ #current-weather {
+   font-weight: bold;
+ }
+ 
+ #forecast-weather {
+   margin-top: 10px;
+ }

@@ -1,3 +1,3 @@
 # pyprojects
 python projects
-with web
+with web & app

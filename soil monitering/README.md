@@ -33,12 +33,10 @@ This project showcases a dynamic **Flask web application** designed to recommend
    pip install flask numpy pandas scikit-learn
 Run the Flask Application: Start the application with:
 
-bash
-Copy code
-python app.py
-Access the Application: Open your web browser and navigate to http://127.0.0.1:5000/ to start using the Crop Recommendation System.
 
-Usage
+python app.py
+
+# Usage
 Input Parameters: Enter the following soil and weather parameters into the provided form:
 
 Nitrogen (N): Nitrogen content in the soil.
@@ -50,7 +48,7 @@ pH: Soil pH level.
 Rainfall: Rainfall in millimeters.
 Get Recommendations: Submit the form to receive a crop recommendation tailored to the provided conditions.
 
-Example Dataset
+## Example Dataset
 The Crop_recommendation.csv file includes data with the following columns:
 
 N: Nitrogen content in the soil

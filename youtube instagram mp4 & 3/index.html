@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .button {
+            width: 140px;
+            height: 45px;
+            border-radius: 30em;
+            position: relative;
+            overflow: hidden;
+            color: #fff;
+            font-family: Roboto, sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 1;
+            background: #ff135a;
+            border: 3px solid #fff;
+            box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+            transition: 0.6s ease-in;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background: #fff;
+        }
+        .button .two {
+            display: none;
+        }
+        .button::before {
+            content: "";
+            width: 0;
+            height: 50px;
+            border-radius: 30em;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-image: linear-gradient(to right, #0fd850 0%, #f9f047 100%);
+            transition: 0.5s ease;
+            display: block;
+            z-index: -1;
+        }
+        .button:hover::before {
+            width: 140px;
+            transition: 3s linear;
+        }
+        .button:hover .one {
+            display: none;
+        }
+        .button:hover .two {
+            display: inline;
+        }
+        .platform-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .Btn {
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin-left: 10px;
+        }
+        .Btn.active {
+            border: 3px solid #000;
+        }
+        .instagram {
+            background: #f09433;
+            background: -moz-linear-gradient(
+                45deg,
+                #f09433 0%,
+                #e6683c 25%,
+                #dc2743 50%,
+                #cc2366 75%,
+                #bc1888 100%
+            );
+            background: -webkit-linear-gradient(
+                45deg,
+                #f09433 0%,
+                #e6683c 25%,
+                #dc2743 50%,
+                #cc2366 75%,
+                #bc1888 100%
+            );
+            background: linear-gradient(
+                45deg,
+                #f09433 0%,
+                #e6683c 25%,
+                #dc2743 50%,
+                #cc2366 75%,
+                #bc1888 100%
+            );
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+        }
+        .youtube {
+            background-color: #ff0000;
+        }
+        .Btn:hover {
+            width: 110px;
+            transition-duration: 0.4s;
+            border-radius: 30px;
+        }
+        .Btn:hover .text {
+            opacity: 1;
+            transition-duration: 0.4s;
+        }
+        .Btn:hover .svgIcon {
+            opacity: 0;
+            transition-duration: 0.3s;
+        }
+        .text {
+            position: absolute;
+            color: rgb(255, 255, 255);
+            width: 120px;
+            font-weight: 600;
+            opacity: 0;
+            transition-duration: 0.4s;
+        }
+        .svgIcon {
+            transition-duration: 0.3s;
+        }
+        .svgIcon path {
+            fill: white;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://img.icons8.com/ios-filled/50/000000/download.png" alt="Logo">
+            <h1>Video Downloader</h1>
+        </div>
+        <div class="platform-buttons">
+            <button class="Btn youtube active" id="youtubeBtn" onclick="setPlatform('youtube')">
+                <svg class="svgIcon" viewBox="0 0 576 512" height="1.5em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M549.655 148.28c-6.281-23.64-24.041-42.396-47.655-48.685C462.923 85 288 85 288 85S113.077 85 74 99.595c-23.614 6.289-41.374 25.045-47.655 48.685-12.614 47.328-12.614 147.717-12.614 147.717s0 100.39 12.614 147.718c6.281 23.64 24.041 42.396 47.655 48.684C113.077 427 288 427 288 427s174.923 0 214-14.595c23.614-6.289 41.374-25.045 47.655-48.685 12.614-47.328 12.614-147.718 12.614-147.718s0-100.389-12.614-147.717zM240 336V176l144 80-144 80z"></path>
+                </svg>
+                <span class="text">YouTube</span>
+            </button>
+            <button class="Btn instagram" id="instagramBtn" onclick="setPlatform('instagram')">
+                <svg class="svgIcon" viewBox="0 0 448 512" height="1.5em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path>
+                </svg>
+                <span class="text">Instagram</span>
+            </button>
+        </div>
+        <input type="text" id="videoUrl" placeholder="Enter video URL">
+        <select id="format">
+            <option value="mp3">MP3 Audio</option>
+            <option value="mp4">MP4 Video</option>
+        </select>
+        <button class="button" id="downloadBtn" onclick="downloadVideo()">
+            <span class="one">Download 59%</span>
+            <span class="two">100%</span>
+        </button>
+        <p id="error" class="error"></p>
+        <p id="success" class="success"></p>
+    </div>
+
+    <script>
+        let platform = 'youtube';
+
+        function setPlatform(selectedPlatform) {
+            platform = selectedPlatform;
+            document.getElementById('youtubeBtn').classList.toggle('active', selectedPlatform === 'youtube');
+            document.getElementById('instagramBtn').classList.toggle('active', selectedPlatform === 'instagram');
+        }
+
+        async function downloadVideo() {
+            const url = document.getElementById('videoUrl').value;
+            const format = document.getElementById('format').value;
+            const errorElement = document.getElementById('error');
+            const successElement = document.getElementById('success');
+            errorElement.textContent = '';
+            successElement.textContent = '';
+
+            if (!url) {
+                errorElement.textContent = 'Please enter a video URL.';
+                return;
+            }
+
+            if (platform === 'youtube' && !url.includes('youtube.com')) {
+                alert('Please select Instagram for Instagram video links.');
+                return;
+            }
+
+            if (platform === 'instagram' && !url.includes('instagram.com')) {
+                alert('Please select YouTube for YouTube video links.');
+                return;
+            }
+
+            const downloadBtn = document.getElementById('downloadBtn');
+            const progressText = downloadBtn.querySelector('.one');
+            downloadBtn.disabled = true;
+            let progress = 59;
+
+            const interval = setInterval(() => {
+                if (progress < 100) {
+                    progress++;
+                    progressText.textContent = `Download ${progress}%`;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 100);
+
+            try {
+                const response = await fetch('http://localhost:8000/download/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url, format }),
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || 'Download failed');
+                }
+
+                const blob = await response.blob();
+                const downloadUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = response.headers.get('Content-Disposition').split('filename=')[1] || 'video';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(downloadUrl);
+
+                successElement.textContent = `Your ${format === 'mp3' ? 'audio' : 'video'} has been downloaded.`;
+            } catch (err) {
+                errorElement.textContent = `An error occurred: ${err.message}`;
+            } finally {
+                clearInterval(interval);
+                progressText.textContent = 'Download 100%';
+                downloadBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
